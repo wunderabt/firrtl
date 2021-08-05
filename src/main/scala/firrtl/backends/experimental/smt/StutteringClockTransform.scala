@@ -10,6 +10,7 @@ import firrtl.options.Dependency
 import firrtl.passes.PassException
 import firrtl.stage.Forms
 import firrtl.stage.TransformManager.TransformDependency
+import firrtl.renamemap.MutableRenameMap
 
 import scala.collection.mutable
 
@@ -87,7 +88,7 @@ class StutteringClockTransform extends Transform with DependencyAPIMigration {
 
     // rename clocks to clock enable signals
     val mRef = CircuitTarget(state.circuit.main).module(main.name)
-    val renameMap = RenameMap()
+    val renameMap = MutableRenameMap()
     scan.clockToEnable.foreach {
       case (clk, en) =>
         renameMap.record(mRef.ref(clk), mRef.ref(en.name))

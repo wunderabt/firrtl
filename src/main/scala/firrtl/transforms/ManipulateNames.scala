@@ -5,7 +5,6 @@ package firrtl.transforms
 import firrtl._
 import firrtl.analyses.InstanceKeyGraph
 import firrtl.Mappers._
-
 import firrtl.annotations.{
   CircuitTarget,
   CompleteTarget,
@@ -17,6 +16,7 @@ import firrtl.annotations.{
   TargetToken
 }
 import firrtl.options.Dependency
+import firrtl.renamemap.MutableRenameMap
 import firrtl.stage.Forms
 import firrtl.stage.TransformManager.TransformDependency
 
@@ -141,7 +141,7 @@ case class ManipulateNamesAllowlistResultAnnotation[A <: ManipulateNames[_]](
   */
 private class RenameDataStructure(
   circuit:     ir.Circuit,
-  val renames: RenameMap,
+  val renames: MutableRenameMap,
   val block:   Target => Boolean,
   val allow:   Target => Boolean) {
 
@@ -409,7 +409,7 @@ abstract class ManipulateNames[A <: ManipulateNames[_]: ClassTag] extends Transf
     */
   def run(
     c:       ir.Circuit,
-    renames: RenameMap,
+    renames: MutableRenameMap,
     block:   Target => Boolean,
     allow:   Target => Boolean
   ): ir.Circuit = {
@@ -485,7 +485,7 @@ abstract class ManipulateNames[A <: ManipulateNames[_]: ClassTag] extends Transf
       }
     }
 
-    val renames = RenameMap()
+    val renames = MutableRenameMap()
     val circuitx = run(state.circuit, renames, block, allow)
 
     val annotationsx = state.annotations.flatMap {

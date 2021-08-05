@@ -3,15 +3,14 @@
 package firrtl.fuzzer
 
 import com.pholser.junit.quickcheck.From
-import com.pholser.junit.quickcheck.generator.{Generator, GenerationStatus}
+import com.pholser.junit.quickcheck.generator.{GenerationStatus, Generator}
 import com.pholser.junit.quickcheck.random.SourceOfRandomness
-
-import edu.berkeley.cs.jqf.fuzz.{Fuzz, JQF};
-
+import edu.berkeley.cs.jqf.fuzz.{Fuzz, JQF}
 import firrtl._
 import firrtl.annotations.{Annotation, CircuitTarget, ModuleTarget, Target}
 import firrtl.ir.Circuit
 import firrtl.options.Dependency
+import firrtl.renamemap.MutableRenameMap
 import firrtl.stage.{FirrtlCircuitAnnotation, InfoModeAnnotation, OutputFileAnnotation, TransformManager}
 import firrtl.stage.Forms.{VerilogMinimumOptimized, VerilogOptimized}
 import firrtl.stage.phases.WriteEmitted
@@ -20,7 +19,6 @@ import firrtl.util.BackendCompilationUtilities
 
 import java.io.{File, FileWriter, PrintWriter, StringWriter}
 import java.io.{File, FileWriter}
-
 import org.junit.Assert
 import org.junit.runner.RunWith
 
@@ -36,7 +34,7 @@ object FirrtlEquivalenceTestUtils {
         case _: CircuitTarget => true
         case _: Target => false
       }
-      val renames = RenameMap()
+      val renames = MutableRenameMap()
       val circuitx = run(state.circuit, renames, block, allow)
       state.copy(circuit = circuitx, renames = Some(renames))
     }
