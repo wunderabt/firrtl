@@ -4,7 +4,7 @@ resolvers += Classpaths.sbtPluginReleases
 
 resolvers += "jgit-repo" at "https://download.eclipse.org/jgit/maven"
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.1")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.3")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.1")
 
